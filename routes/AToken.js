@@ -16,6 +16,7 @@ function decode(token, secret) {
         var decoded = jwt.decode(token, secret);
         resolve(decoded);
       } catch (err) {
+        console.log(err);
         var error = new rekt.BadRequest('Badly formed token.');
         reject(error);
       }
