@@ -67,6 +67,7 @@ module.exports = function(router) {
           next();
         })
         .catch(function(err) {
+          console.log(err);
           res.status(err.status);
           res.send(err);
         });
