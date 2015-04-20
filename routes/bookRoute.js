@@ -9,8 +9,8 @@ var Difference = requireLocal('models/difference.js');
 module.exports = function(router) {
   router.route('/book-import')
     .all(function(req, res, next) {
-      console.log(req.token);
-      if (req.token.sub === 'Tiltfactor' || req.token.sub === 'BHL') {
+
+      if (req.token.subject === 'Tiltfactor' || req.token.subject === 'BHL') {
         next();
       } else {
         res.status(401);
