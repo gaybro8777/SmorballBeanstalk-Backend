@@ -13,7 +13,6 @@ function getPage(n) {
         returnPage = _(pages).shuffle().find(function(page) {
           return page.differences.length >= n;
         });
-
         if (_.isUndefined(returnPage)) {
           console.log('There is no page with at least', n, 'differences.');
           console.log('Sending random page');
