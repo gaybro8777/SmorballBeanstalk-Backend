@@ -10,9 +10,10 @@ function mergeBooks(books) {
 
   return new Promise(function(resolve, reject) {
     if (!_.isUndefined(books)) {
-      var finalBook = {};
+      var finalBooks = {};
       _.forEach(books, function(book) {
-        console.log(book);
+        finalBooks[book.items.id] = finalBooks[book.items.id] || {};
+        console.log(finalBooks);
       });
     } else {
       reject(new rekt.BadRequest('You must provide books to import'));
