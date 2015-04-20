@@ -16,9 +16,7 @@ function decode(token, secret) {
         var decoded = jwt.decode(token, secret);
         resolve(decoded);
       } catch (err) {
-        console.log('Made it to badly formed token');
         var error = new rekt.BadRequest('Badly formed token.');
-        console.log('err', error);
         reject(error);
       }
     }
@@ -31,7 +29,6 @@ function decode(token, secret) {
  */
 function validateToken(decoded) {
   var subject = decoded.sub;
-  console.log('subject:', subject);
   return new Promise(function(resolve, reject) {
     if (_.isUndefined(subject)) {
       var error = new rekt.BadRequest('Token needs subject field.');
@@ -66,12 +63,9 @@ module.exports = function(router) {
       decode(token, config.secret)
         .then(validateToken)
         .then(function(result) {
-
           next();
         })
         .catch(function(err) {
-          console.log('Made it to catch with error', err);
-          console.log(JSON.stringify(err));
           res.send(JSON.stringify(err));
         });
     } else {
