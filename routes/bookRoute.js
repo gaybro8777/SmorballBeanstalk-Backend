@@ -35,13 +35,14 @@ function prepareBooks(books) {
   return Promise.map(_.keys(books), function(bookKey) {
     var bookPages = books[bookKey].pages;
     return Promise.map(bookPages, function(page) {
-      return prepareDifferences(page)
+      return prepareDifferences(page).then(function() {
+        console.log(arguments);
+      })
     });
   });
 }
 
 function prepareDifferences(page) {
-  console.log(page);
   return Promise.map(page.differences, function(difference) {
     difference.tags = difference.tags || [];
     difference.passes = 0;
@@ -50,8 +51,8 @@ function prepareDifferences(page) {
         text: text,
         weight: 0
       }, difference);
-      return difference;
-    })
+    });
+    return difference;
   });
 }
 
