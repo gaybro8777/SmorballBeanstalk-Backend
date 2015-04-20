@@ -17,7 +17,7 @@ function decode(token, secret) {
         resolve(decoded);
       } catch (err) {
         var error = new rekt.BadRequest('Badly formed token.');
-        console.log(error);
+        console.log('err', error);
         reject(error);
       }
     }
