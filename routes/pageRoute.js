@@ -4,7 +4,7 @@ var Page    = requireLocal('models/page.js');
 var _       = require('lodash');
 
 function getPage(n) {
-  console.log('Trying to send page with', n, 'differences.');
+  console.log('Trying to send page with at least', n, 'differences.');
   return new Promise(function(resolve, reject) {
     Page.find({}).populate('differences').exec(function(err, pages) {
       if (err) { reject(err) }
@@ -15,6 +15,8 @@ function getPage(n) {
         });
 
         if (_.isUndefined(returnPage)) {
+          console.log('There is no page with at least', n, 'differences.');
+          console.log('Sending random page');
           var randomPage = _.sample(pages, 1)[0];
           resolve(randomPage);
         } else {
