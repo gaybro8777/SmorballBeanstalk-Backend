@@ -71,7 +71,7 @@ module.exports = function(router) {
         })
         .catch(function(err) {
           console.log('Made it to catch with error', err);
-          res.status(err.status);
+          console.log(JSON.stringify(err));
           res.send(JSON.stringify(err));
         });
     } else {
