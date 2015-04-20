@@ -12,7 +12,7 @@ function mergeBooks(books) {
     if (!_.isUndefined(books)) {
       var finalBooks = {};
       _.forEach(books, function(book) {
-        finalBooks[book.items.id] = finalBooks[book.items.id] || {};
+        finalBooks[book.items[0].id] = finalBooks[book.items[0].id] || {};
         console.log(finalBooks);
       });
     } else {
