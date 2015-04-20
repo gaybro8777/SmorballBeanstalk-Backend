@@ -63,6 +63,7 @@ module.exports = function(router) {
       decode(token, config.secret)
         .then(validateToken)
         .then(function(result) {
+          req.token = result;
           next();
         })
         .catch(function(err) {
