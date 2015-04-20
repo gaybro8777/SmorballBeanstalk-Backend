@@ -71,7 +71,7 @@ module.exports = function(router) {
         .catch(function(err) {
           console.log(err);
           res.status(err.status);
-          res.send(err);
+          res.send(JSON.stringify(err));
         });
     } else {
       var err = new rekt.BadRequest('Missing Token');
