@@ -20,7 +20,7 @@ function mergeBooks(books) {
         };
 
         _.forEach(raw.pages, function(page) {
-          finalBooks[raw.id].push(page);
+          finalBooks[raw.id].pages.push(page);
         });
 
       });
