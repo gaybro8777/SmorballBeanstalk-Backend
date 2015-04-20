@@ -29,6 +29,7 @@ function decode(token, secret) {
  */
 function validateToken(decoded) {
   var subject = decoded.sub;
+  console.log(subject);
   return new Promise(function(resolve, reject) {
     if (_.isUndefined(subject)) {
       var error = new rekt.BadRequest('Token needs subject field.');
