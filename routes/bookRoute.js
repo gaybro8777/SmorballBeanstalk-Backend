@@ -12,9 +12,19 @@ function mergeBooks(books) {
     if (!_.isUndefined(books)) {
       var finalBooks = {};
       _.forEach(books, function(book) {
-        finalBooks[book.items[0].id] = finalBooks[book.items[0].id] || {};
-        console.log(finalBooks);
+        var raw = book.items[0];
+        finalBooks[raw.id] = finalBooks[raw.id] || {
+          id: raw.id,
+          barcode: raw.barcode,
+          pages: []
+        };
+
+        _.forEach(raw.pages, function(page) {
+          finalBooks[raw.id].push(page);
+        });
+
       });
+      resolve(finalBooks);
     } else {
       reject(new rekt.BadRequest('You must provide books to import'));
     }
@@ -37,7 +47,9 @@ module.exports = function(router) {
     .post(function(req, res) {
       var books = req.body.items;
 
-      mergeBooks(books);
-      res.end();
+      mergeBooks(books)
+        .then(function(books) {
+          res.json(books);
+        });
     });
 }
