@@ -37,7 +37,7 @@ module.exports = function(router) {
           res.status(200);
           res.send(page);
         })
-        .catch(err, function(err) {
+        .catch(function(err) {
           console.log(err);
           res.send(err);
         });
