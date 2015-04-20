@@ -19,6 +19,7 @@ var mongoose   = require('mongoose');
 var config     = requireLocal('config/config.js');
 var PORT       = process.env.PORT || config.ServerPort || 8081;
 
+var app = express();
 /** Connect to our database */
 mongoose.connect(config.productionDB);
 
