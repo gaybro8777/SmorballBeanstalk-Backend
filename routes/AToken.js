@@ -1,5 +1,5 @@
 var Promise = require('bluebird');
-var rekt    = require('rekt');
+var rekt    = require('rekt').rekt;
 var Token   = requireLocal('models/token.js');
 var config  = requireLocal('config/config.js');
 var jwt     = require('jwt-simple');
