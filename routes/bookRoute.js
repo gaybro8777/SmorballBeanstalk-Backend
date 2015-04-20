@@ -6,6 +6,20 @@ var Book       = requireLocal('models/book.js');
 var Page       = requireLocal('models/page.js');
 var Difference = requireLocal('models/difference.js');
 
+function mergeBooks(books) {
+
+  return new Promise(function(resolve, reject) {
+    if (!_.isUndefined(books)) {
+      var finalBook = {};
+      _.forEach(books, function(book) {
+        console.log(book);
+      });
+    } else {
+      reject(new rekt.BadRequest('You must provide books to import'));
+    }
+  });
+}
+
 module.exports = function(router) {
   router.route('/book-import')
     .all(function(req, res, next) {
@@ -20,10 +34,9 @@ module.exports = function(router) {
       }
     })
     .post(function(req, res) {
-
       var books = req.body.items;
-      console.log(books);
-      res.end();
 
+      mergeBooks(books);
+      res.end();
     });
 }
