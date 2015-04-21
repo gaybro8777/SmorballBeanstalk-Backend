@@ -19,6 +19,7 @@
     "levenshtein": "^1.0.5",
     "lodash": "^3.7.0",
     "mongoose": "^4.0.1",
+    "prompt": "^0.2.14",
     "rekt": "^1.3.6"
   }
 }
