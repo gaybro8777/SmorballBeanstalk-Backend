@@ -41,6 +41,7 @@ function prepareBooks(books) {
 }
 
 function prepareDifferences(page) {
+  console.log(page);
   return Promise.map(page.differences, function(difference) {
     difference.tags = difference.tags || [];
     difference.passes = 0;
@@ -49,7 +50,6 @@ function prepareDifferences(page) {
         text: text,
         weight: 0
       }, difference);
-      console.log(difference);
       return difference;
     })
   });
