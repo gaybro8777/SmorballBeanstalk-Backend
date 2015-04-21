@@ -50,7 +50,7 @@ function prepareDifferences(page) {
   return Promise.map(page.differences, function(difference) {
     difference.tags = difference.tags || [];
     difference.passes = 0;
-    _.forEach(difference.text, function(text) {
+    _.forEach(difference.texts, function(text) {
       this.tags.push({
         text: text,
         weight: 0
