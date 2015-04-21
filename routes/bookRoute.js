@@ -54,8 +54,9 @@ module.exports = function(router) {
     .post(function(req, res) {
       var books = req.body.items;
       mergeBooks(books)
-        .then(function(books) {
-          res.json(books);
+        .then(prepareBooks)
+        .then(function() {
+          res.end();
         });
     });
 }
