@@ -37,7 +37,7 @@ function prepareBooks(books) {
     return Promise.map(bookPages, function(page) {
       return prepareDifferences(page).then(function() {
         console.log(arguments);
-      })
+      });
     });
   });
 }
@@ -50,8 +50,8 @@ function prepareDifferences(page) {
       this.tags.push({
         text: text,
         weight: 0
-      }, difference);
-    });
+      });
+    }, difference);
     return difference;
   });
 }
