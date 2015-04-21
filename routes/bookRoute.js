@@ -33,7 +33,25 @@ function mergeBooks(books) {
 
 function prepareBooks(books) {
   return Promise.map(_.keys(books), function(bookKey) {
-    console.log(books[bookKey]);
+    var bookPages = books[bookKey].pages;
+    return Promise.map(pages, function(page) {
+      return prepareDifferences(page)
+    });
+  });
+}
+
+function prepareDifferences(page) {
+  return Promise.map(page.differences, function(difference) {
+    difference.tags = difference.tags || [];
+    difference.passes = 0;
+    _.forEach(difference.text, function(text) {
+      this.tags.push({
+        text: text,
+        weight: 0
+      }, difference);
+      console.log(difference);
+      return difference;
+    })
   });
 }
 
