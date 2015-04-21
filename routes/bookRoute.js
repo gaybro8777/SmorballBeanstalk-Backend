@@ -6,6 +6,8 @@ var Book       = requireLocal('models/book.js');
 var Page       = requireLocal('models/page.js');
 var Difference = requireLocal('models/difference.js');
 
+
+/** If difference with id exists we want to throw it out. */
 function mergeBooks(books) {
   return new Promise(function(resolve, reject) {
     if (!_.isUndefined(books)) {
@@ -35,9 +37,11 @@ function prepareBooks(books) {
   return Promise.map(_.keys(books), function(bookKey) {
     var bookPages = books[bookKey].pages;
     return Promise.map(bookPages, function(page) {
-      return prepareDifferences(page).then(function() {
-        console.log(arguments);
-      });
+      return prepareDifferences(page)
+        .then(function() {
+          // save differences
+          console.log(arguments);
+        });
     });
   });
 }
@@ -53,6 +57,30 @@ function prepareDifferences(page) {
       });
     }, difference);
     return difference;
+  });
+}
+
+function saveDifferences(differences) {
+  return Promise.map(differences, function(difference) {
+    return Book.findOneAsync({
+      id: difference.id
+    })
+    .then(function(match) {
+      if (match) {
+        return undefined;
+      } else {
+        var newDifference = new Difference();
+        newDifference.id = difference.id;
+        newDifference.tags = difference.tags;
+        newDifference.texts = difference.texts;
+        newDifference.coords = difference.coords;
+        return newDifference.saveAsync().bind(difference)
+          .get(0)
+          .then(function(result) {
+            return result._id;
+          });
+      }
+    })
   });
 }
 
