@@ -32,7 +32,7 @@ function getPage(n) {
 module.exports = function(router) {
   router.route('/page')
     .get(function(req, res) {
-      var minimumWords = req.query.wordAmount || 20;
+      var minimumWords = req.query.wordAmount || 1;
       getPage(minimumWords)
         .then(function(page) {
           res.status(200);

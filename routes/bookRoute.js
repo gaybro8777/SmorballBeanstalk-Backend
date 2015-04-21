@@ -7,7 +7,6 @@ var Page       = requireLocal('models/page.js');
 var Difference = requireLocal('models/difference.js');
 
 function mergeBooks(books) {
-
   return new Promise(function(resolve, reject) {
     if (!_.isUndefined(books)) {
       var finalBooks = {};
@@ -18,14 +17,12 @@ function mergeBooks(books) {
           barcode: raw.barcode,
           pages: []
         };
-
         _.forEach(raw.pages, function(page) {
           console.log(page.differences.length);
           if (page.differences.length > 0) {
             finalBooks[raw.id].pages.push(page);
           }
         });
-
       });
       resolve(finalBooks);
     } else {
@@ -33,6 +30,13 @@ function mergeBooks(books) {
     }
   });
 }
+
+function prepareBooks(books) {
+  return Promise.map(_.keys(books), function(bookKey) {
+    console.log(books[bookKey]);
+  });
+}
+
 
 module.exports = function(router) {
   router.route('/book-import')
@@ -49,7 +53,6 @@ module.exports = function(router) {
     })
     .post(function(req, res) {
       var books = req.body.items;
-
       mergeBooks(books)
         .then(function(books) {
           res.json(books);

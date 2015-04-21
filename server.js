@@ -21,7 +21,7 @@ var PORT       = process.env.PORT || config.ServerPort || 8081;
 
 var app = express();
 /** Connect to our database */
-mongoose.connect(config.productionDB);
+mongoose.connect(config.developmentDB);
 
 /** Allow cross domain requests */
 app.use(cors());
