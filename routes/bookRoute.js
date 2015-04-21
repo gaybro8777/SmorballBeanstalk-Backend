@@ -34,7 +34,7 @@ function mergeBooks(books) {
 function prepareBooks(books) {
   return Promise.map(_.keys(books), function(bookKey) {
     var bookPages = books[bookKey].pages;
-    return Promise.map(pages, function(page) {
+    return Promise.map(bookPages, function(page) {
       return prepareDifferences(page)
     });
   });
