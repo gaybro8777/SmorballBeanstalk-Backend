@@ -37,11 +37,21 @@ function prepareBooks(books) {
   return Promise.map(_.keys(books), function(bookKey) {
     var bookPages = books[bookKey].pages;
     return Promise.map(bookPages, function(page) {
-      return prepareDifferences(page)
-        .then(function() {
-          // save differences
-          console.log(arguments);
-        });
+      Page.findOneAsync({
+        id: page.id
+      })
+      .bind(page)
+      .then(function(match) {
+        if (match) {
+          return undefined;
+        } else {
+          return prepareDifferences(page)
+            .then(function(page) {
+            // save differences
+            console.log(page);
+          });
+        }
+      });
     });
   });
 }
@@ -62,25 +72,16 @@ function prepareDifferences(page) {
 
 function saveDifferences(differences) {
   return Promise.map(differences, function(difference) {
-    return Book.findOneAsync({
-      id: difference.id
-    })
-    .then(function(match) {
-      if (match) {
-        return undefined;
-      } else {
-        var newDifference = new Difference();
-        newDifference.id = difference.id;
-        newDifference.tags = difference.tags;
-        newDifference.texts = difference.texts;
-        newDifference.coords = difference.coords;
-        return newDifference.saveAsync().bind(difference)
-          .get(0)
-          .then(function(result) {
-            return result._id;
-          });
-      }
-    })
+    var newDifference = new Difference();
+    newDifference.id = difference.id;
+    newDifference.tags = difference.tags;
+    newDifference.texts = difference.texts;
+    newDifference.coords = difference.coords;
+    return newDifference.saveAsync().bind(difference)
+      .get(0)
+      .then(function(result) {
+        return result._id;
+      });
   });
 }
 
