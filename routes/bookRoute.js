@@ -6,7 +6,6 @@ var Book       = requireLocal('models/book.js');
 var Page       = requireLocal('models/page.js');
 var Difference = requireLocal('models/difference.js');
 
-
 /** If difference with id exists we want to throw it out. */
 function mergeBooks(books) {
   return new Promise(function(resolve, reject) {
@@ -47,9 +46,9 @@ function prepareBooks(books) {
         } else {
           return prepareDifferences(page)
             .then(function(page) {
-            // save differences
-            console.log(page);
-          });
+              console.log('Would save page.');
+              console.log(page);
+            });
         }
       });
     });
@@ -89,7 +88,6 @@ function saveDifferences(differences) {
 module.exports = function(router) {
   router.route('/book-import')
     .all(function(req, res, next) {
-
       if (req.token.subject === 'Tiltfactor' || req.token.subject === 'BHL') {
         next();
       } else {
@@ -105,6 +103,9 @@ module.exports = function(router) {
         .then(prepareBooks)
         .then(function() {
           res.end();
+        })
+        .catch(function(err) {
+          res.send(err);
         });
     });
 }
