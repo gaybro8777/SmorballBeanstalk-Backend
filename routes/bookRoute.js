@@ -58,10 +58,10 @@ function prepareBooks(books) {
             });
         }
       })
-      .then(function(pages) {
-        console.log(newPages);
-      })
-    });
+    })
+    .then(function(pages) {
+      console.log(newPages);
+    })
   })
 }
 
