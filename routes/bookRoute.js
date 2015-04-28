@@ -54,12 +54,12 @@ function prepareBooks(books) {
               return savePage(page);
             })
             .then(function(savedPage) {
-              console.log(savedPage);
+              newPages.push(savedPage);
               return savedPage;
             });
         }
       }).then(function() {
-        console.log(arguments);
+        console.log(newPages);
       });
     })
 
