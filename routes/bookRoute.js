@@ -75,8 +75,8 @@ function prepareDifferences(page) {
   });
 }
 
-function saveDifferences(differences) {
-  return Promise.map(differences, function(difference) {
+function saveDifferences(page) {
+  return Promise.map(page.differences, function(difference) {
     var newDifference = new Difference();
     newDifference.id = difference.id;
     newDifference.tags = difference.tags;
