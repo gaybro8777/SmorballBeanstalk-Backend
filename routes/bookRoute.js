@@ -36,6 +36,7 @@ function prepareBooks(books) {
   return Promise.map(_.keys(books), function(bookKey) {
     var book = books[bookKey];
     var bookPages = books[bookKey].pages;
+    var newPages = [];
     return Promise.map(bookPages, function(page) {
       Page.findOneAsync({
         id: page.id
@@ -52,11 +53,14 @@ function prepareBooks(books) {
               page.differences = result;
               return savePage(page);
             })
-            .then(function(pages) {
-              console.log(pages);
+            .then(function(page) {
+              newPages.push(page);
             });
         }
-      });
+      })
+      .then(function(pages) {
+        console.log(newPages);
+      })
     });
   })
 }
