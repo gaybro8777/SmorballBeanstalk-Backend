@@ -58,11 +58,11 @@ function prepareBooks(books) {
               return savedPage;
             });
         }
-      })
+      }).then(function() {
+        console.log(arguments);
+      });
     })
-    .then(function() {
-      console.log(arguments);
-    });
+
   })
 }
 
