@@ -60,8 +60,8 @@ function prepareBooks(books) {
         }
       })
     }).then(function() {
-    console.log(bookKey, arguments);
-  })
+      console.log(bookKey, newPages);
+    })
 
   })
 }
