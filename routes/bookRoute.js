@@ -34,6 +34,7 @@ function mergeBooks(books) {
 
 function prepareBooks(books) {
   return Promise.map(_.keys(books), function(bookKey) {
+    var book = books[bookKey];
     var bookPages = books[bookKey].pages;
     return Promise.map(bookPages, function(page) {
       Page.findOneAsync({
@@ -42,6 +43,7 @@ function prepareBooks(books) {
       .bind(page)
       .then(function(match) {
         if (match) {
+          console.log('Page with that id exists');
           return undefined;
         } else {
           return prepareDifferences(page)
@@ -49,11 +51,14 @@ function prepareBooks(books) {
             .then(function(result) {
               page.differences = result;
               return savePage(page);
+            })
+            .then(function(pages) {
+              console.log(pages);
             });
         }
       });
     });
-  });
+  })
 }
 
 function savePage(page) {
@@ -65,7 +70,6 @@ function savePage(page) {
   return newPage.saveAsync().bind(page)
     .get(0)
     .then(function(result) {
-      console.log(result);
       return result._id;
     });
 }
@@ -85,7 +89,6 @@ function prepareDifferences(page) {
     });
 
     page.differences = newDifferences;
-
     resolve(page);
   });
 }
@@ -122,7 +125,7 @@ module.exports = function(router) {
       mergeBooks(books)
         .then(prepareBooks)
         .then(function() {
-          res.end();
+          res.send('Successfully processed request.');
         })
         .catch(function(err) {
           res.send(err);
