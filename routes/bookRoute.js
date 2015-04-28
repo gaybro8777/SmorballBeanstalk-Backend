@@ -44,7 +44,6 @@ function prepareBooks(books) {
       .bind(page)
       .then(function(match) {
         if (match) {
-          console.log('Page with that id exists');
           return undefined;
         } else {
           return prepareDifferences(page)
@@ -97,7 +96,7 @@ function prepareDifferences(page) {
       difference.passes = 0;
       _.forEach(difference.texts, function(text) {
         this.tags.push({
-          text: text,
+          text: text.toLowerCase(),
           weight: 0
         });
       }, difference);
