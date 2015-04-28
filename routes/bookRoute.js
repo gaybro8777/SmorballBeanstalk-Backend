@@ -53,15 +53,15 @@ function prepareBooks(books) {
               page.differences = result;
               return savePage(page);
             })
-            .then(function(page) {
-              newPages.push(page);
+            .then(function(savedPage) {
+              return savedPage;
             });
         }
       })
     })
-    .then(function(pages) {
-      console.log(newPages);
-    })
+    .then(function() {
+      console.log(arguments);
+    });
   })
 }
 
