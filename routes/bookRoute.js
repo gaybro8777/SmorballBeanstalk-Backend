@@ -45,11 +45,10 @@ function prepareBooks(books) {
           return undefined;
         } else {
           return prepareDifferences(page)
-            .then(function(page) {
-              console.log(page);
-
-            })
-
+            .then(saveDifferences)
+            .then(function(result) {
+              console.log(result);
+            });
         }
       });
     });
