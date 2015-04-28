@@ -47,7 +47,6 @@ function prepareBooks(books) {
           return prepareDifferences(page)
             .then(function(page) {
               console.log('Would save page.');
-              console.log(page);
             });
         }
       });
@@ -83,7 +82,6 @@ function saveDifferences(differences) {
       });
   });
 }
-
 
 module.exports = function(router) {
   router.route('/book-import')
