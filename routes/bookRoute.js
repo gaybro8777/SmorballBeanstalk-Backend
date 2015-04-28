@@ -47,11 +47,9 @@ function prepareBooks(books) {
           return prepareDifferences(page)
             .then(function(page) {
               console.log(page);
-              return saveDifferences()
+
             })
-            .then(function(differences) {
-              console.log(differences);
-            });
+
         }
       });
     });
