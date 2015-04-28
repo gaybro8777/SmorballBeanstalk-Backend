@@ -59,7 +59,7 @@ function prepareBooks(books) {
 }
 
 function prepareDifferences(page) {
-  return Promise.map(page.differences, function(difference) {
+  var newDifferences = _.map(page.differences, function(difference) {
     difference.tags = difference.tags || [];
     difference.passes = 0;
     _.forEach(difference.texts, function(text) {
@@ -70,6 +70,8 @@ function prepareDifferences(page) {
     }, difference);
     return difference;
   });
+
+  page.differences = newDifferences;
 }
 
 function saveDifferences(differences) {
