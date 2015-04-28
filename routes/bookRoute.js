@@ -72,6 +72,8 @@ function prepareDifferences(page) {
   });
 
   page.differences = newDifferences;
+
+  return page;
 }
 
 function saveDifferences(differences) {
