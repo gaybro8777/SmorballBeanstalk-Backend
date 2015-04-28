@@ -59,10 +59,10 @@ function prepareBooks(books) {
             });
         }
       })
-    })
-
-  }).then(function() {
+    }).then(function() {
     console.log(bookKey, arguments);
+  })
+
   })
 }
 
