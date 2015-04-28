@@ -60,12 +60,19 @@ function prepareBooks(books) {
         }
       })
     }).then(function() {
-      console.log(book.barcode);
-      var newBook = new Book();
-      newBook.id = book.id;
-      newBook.barcode = book.barcode;
-      newBook.pages = newPages;
-      console.log(newBook);
+      if (newPages.length > 0) {
+        var newBook = new Book();
+        newBook.id = book.id;
+        newBook.barcode = book.barcode;
+        newBook.pages = newPages;
+        return newBook.saveAsync().bind(book)
+          .get(0)
+          .then(function(result) {
+            return result;
+          });
+      } else {
+        return 'Book: ' + newBook.barcode + 'not saved. No pages.';
+      }
     })
   })
 }
@@ -133,7 +140,8 @@ module.exports = function(router) {
       var books = req.body.items;
       mergeBooks(books)
         .then(prepareBooks)
-        .then(function() {
+        .then(function(result) {
+          res.send(result);
           res.send('Successfully processed request.');
         })
         .catch(function(err) {
