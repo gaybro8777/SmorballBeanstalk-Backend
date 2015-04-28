@@ -60,7 +60,11 @@ function prepareBooks(books) {
         }
       })
     }).then(function() {
-      console.log(bookKey, newPages);
+      var newBook = new Book();
+      newBook.id = book.id;
+      newBook.bardcode = book.barcode;
+      newBook.pages = newPages;
+      console.log(newBook);
     })
   })
 }
