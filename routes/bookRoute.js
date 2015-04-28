@@ -54,6 +54,7 @@ function prepareBooks(books) {
               return savePage(page);
             })
             .then(function(savedPage) {
+              console.log(savedPage);
               return savedPage;
             });
         }
