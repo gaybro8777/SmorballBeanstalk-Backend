@@ -46,7 +46,10 @@ function prepareBooks(books) {
         } else {
           return prepareDifferences(page)
             .then(function(page) {
-              console.log('Would save page.');
+              return saveDifferences(page.differences)
+            })
+            .then(function(differences) {
+              console.log(differences);
             });
         }
       });
