@@ -142,7 +142,6 @@ module.exports = function(router) {
         .then(prepareBooks)
         .then(function(result) {
           res.send(result);
-          res.send('Successfully processed request.');
         })
         .catch(function(err) {
           res.send(err);
