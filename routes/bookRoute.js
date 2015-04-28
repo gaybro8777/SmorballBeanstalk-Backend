@@ -46,7 +46,7 @@ function prepareBooks(books) {
         } else {
           return prepareDifferences(page)
             .then(function(page) {
-              console.log(page.differences);
+              console.log(page);
               return saveDifferences()
             })
             .then(function(differences) {
