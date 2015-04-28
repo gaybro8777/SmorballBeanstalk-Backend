@@ -47,12 +47,27 @@ function prepareBooks(books) {
           return prepareDifferences(page)
             .then(saveDifferences)
             .then(function(result) {
-              console.log(result);
+              page.differences = result;
+              return savePage(page);
             });
         }
       });
     });
   });
+}
+
+function savePage(page) {
+  var newPage = new Page();
+  newPage.id = page.id;
+  newPage.url = page.url;
+  newPage.differences = page.differences;
+
+  return newPage.saveAsync().bind(page)
+    .get(0)
+    .then(function(result) {
+      console.log(result);
+      return result._id;
+    });
 }
 
 function prepareDifferences(page) {
