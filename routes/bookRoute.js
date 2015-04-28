@@ -38,7 +38,7 @@ function prepareBooks(books) {
     var bookPages = books[bookKey].pages;
     var newPages = [];
     return Promise.map(bookPages, function(page) {
-      Page.findOneAsync({
+      return Page.findOneAsync({
         id: page.id
       })
       .bind(page)
@@ -62,7 +62,6 @@ function prepareBooks(books) {
     }).then(function() {
       console.log(bookKey, newPages);
     })
-
   })
 }
 
