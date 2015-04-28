@@ -59,21 +59,23 @@ function prepareBooks(books) {
 }
 
 function prepareDifferences(page) {
-  var newDifferences = _.map(page.differences, function(difference) {
-    difference.tags = difference.tags || [];
-    difference.passes = 0;
-    _.forEach(difference.texts, function(text) {
-      this.tags.push({
-        text: text,
-        weight: 0
-      });
-    }, difference);
-    return difference;
+  return new Promise(function(resolve, reject) {
+    var newDifferences = _.map(page.differences, function(difference) {
+      difference.tags = difference.tags || [];
+      difference.passes = 0;
+      _.forEach(difference.texts, function(text) {
+        this.tags.push({
+          text: text,
+          weight: 0
+        });
+      }, difference);
+      return difference;
+    });
+
+    page.differences = newDifferences;
+
+    resolve(page);
   });
-
-  page.differences = newDifferences;
-
-  return page;
 }
 
 function saveDifferences(differences) {
