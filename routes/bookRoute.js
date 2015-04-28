@@ -62,7 +62,7 @@ function prepareBooks(books) {
     })
 
   }).then(function() {
-    console.log(arguments);
+    console.log(bookKey, arguments);
   })
 }
 
