@@ -60,6 +60,7 @@ function prepareBooks(books) {
         }
       })
     }).then(function() {
+      console.log(book);
       var newBook = new Book();
       newBook.id = book.id;
       newBook.bardcode = book.barcode;
