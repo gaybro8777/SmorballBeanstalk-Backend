@@ -98,7 +98,8 @@ module.exports = function(router) {
           });
         })
         .catch(function(err) {
-          rekt.UserError(err, res);
+          console.log(err);
+          res.send(err);
         });
     });
 };
