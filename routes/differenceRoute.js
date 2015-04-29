@@ -74,6 +74,7 @@ function updateDifferences(unfilteredDifferences) {
           console.log(possible);
           if (possible.pass === true) {
             var prevPasses = foundDifference.passes;
+            console.log(foundDifference);
             if (prevPasses) {
               console.log('updating');
               newPasses = prevPasses + 1;
