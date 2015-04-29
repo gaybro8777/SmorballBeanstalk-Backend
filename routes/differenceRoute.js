@@ -31,7 +31,6 @@ function updateDifferences(unfilteredDifferences) {
       .then(function(results) {
         console.log(results);
       })
-  });
 
   // /**
   //  * Run our verifying algorithm on the unfilteredDifferences provided to us
