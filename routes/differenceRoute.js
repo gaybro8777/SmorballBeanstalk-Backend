@@ -1,5 +1,5 @@
 var Promise    = require('bluebird');
-var rekt       = require('rekt');
+var rekt       = require('rekt').rekt;
 var Book       = requireLocal('models/book.js');
 var Page       = requireLocal('models/page.js');
 var Difference = requireLocal('models/difference.js');
