@@ -29,7 +29,17 @@ function updateDifferences(unfilteredDifferences) {
     var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
     return Promise.settle(filteredDiffs)
       .then(function(results) {
-        console.log(results);
+        var possibleDifferences = _.chain(results)
+          .map(function(result) {
+            if (result.isFulfilled() && result.value) {
+              return result.value();
+            } else {
+              return false;
+            }
+          })
+          .compact()
+          .value();
+        console.log(possibleDifferences);
       })
 
   // /**
