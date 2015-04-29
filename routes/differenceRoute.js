@@ -20,8 +20,7 @@ function updateDifferences(unfilteredDifferences) {
   // remerge passes and write to db
 
   var uniqueDiffs = _.uniq(unfilteredDifferences, '_id');
-  console.log(uniqueDiffs);
-  var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
+  var filteredDiffs = _.map(uniqueDiffs, verifyWord);
   return Promise.settle(filteredDiffs)
     .then(function(results) {
       var passCount = 0;
@@ -52,7 +51,6 @@ function updateDifferences(unfilteredDifferences) {
       if (possibleDifferences.length < 1) {
         throw new rekt.BadRequest('All words possible spam.');
       }
-
       return possibleDifferences;
 
     })
