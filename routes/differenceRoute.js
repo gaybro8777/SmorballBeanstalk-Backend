@@ -73,7 +73,7 @@ function updateDifferences(unfilteredDifferences) {
           var newPasses = 0;
           if (possibleDifference.pass === true) {
             var prevPasses = foundDifference.passes;
-            newPasses = prevPasses ? prevPasses + 1 || 0;
+            newPasses = prevPasses ? prevPasses + 1 : 0;
           }
           if (index > -1) {
             var oldWeight = foundDifference.tags[index].weight;
