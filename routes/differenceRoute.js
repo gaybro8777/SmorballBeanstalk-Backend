@@ -26,14 +26,14 @@ function updateDifferences(unfilteredDifferences) {
    * Run our verifying algorithm on the unfilteredDifferences provided to us
    * by the user.
    */
-  var possibleDifferences = _.map(unfilteredDifferences, verifyWord);
+  var filtedDiffs = _.map(unfilteredDifferences, verifyWord);
 
   /**
    * Because the verifyWord function is Async we have to wait for all of them
    * to either reject or verify. Once they all finish processing we can act on
    * them.
    */
-  return Promise.settle(possibleDifferences)
+  return Promise.settle(filtedDiffs)
     .then(function(results) {
       var possibleDifferences = _.chain(results)
         .map(function(result) {
