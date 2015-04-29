@@ -70,15 +70,15 @@ function updateDifferences(unfilteredDifferences) {
           var index = _.findIndex(foundDifference.tags, {
             text: possible.text
           });
-          var newPasses = 0;
+          var newPasses = 10;
           console.log(possible);
           if (possible.pass === true) {
             var prevPasses = foundDifference.passes;
             console.log(prevPasses);
-            if (prevPasses && prevPasses.total) {
-              newPasses = prevPasses.total + 1;
+            if (prevPasses) {
+              newPasses = prevPasses + 1;
             } else {
-              newPasses = 0;
+              newPasses = prevPasses;
             }
           }
           if (index > -1) {
@@ -88,14 +88,14 @@ function updateDifferences(unfilteredDifferences) {
               text: possible.text,
               weight: newWeight
             });
-            foundDifference.passes.total = newPasses;
+            foundDifference.passes = newPasses;
             return foundDifference.saveAsync();
           } else {
             foundDifference.tags.push({
               text: possible.text,
               weight: 0
             });
-            foundDifference.passes.total = newPasses;
+            foundDifference.passes = newPasses;
             return foundDifference.saveAsync();
           }
         });
