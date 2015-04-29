@@ -27,6 +27,7 @@ function updateDifferences(unfilteredDifferences) {
     }
 
     var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
+    console.log(filteredDiffs);
   });
 
   // /**
