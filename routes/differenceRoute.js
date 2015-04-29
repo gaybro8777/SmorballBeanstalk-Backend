@@ -70,12 +70,12 @@ function updateDifferences(unfilteredDifferences) {
           var index = _.findIndex(foundDifference.tags, {
             text: possible.text
           });
-          var newPasses = 10;
+          var newPasses = 0;
           console.log(possible);
           if (possible.pass === true) {
             var prevPasses = foundDifference.passes;
             console.log(foundDifference);
-            if (prevPasses) {
+            if (!_.isUndefined(prevPasses)) {
               console.log('updating');
               newPasses = prevPasses + 1;
             } else {
