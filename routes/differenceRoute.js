@@ -10,7 +10,7 @@ var verifyWord = requireLocal('utils/compare.js');
 
 function updateDifferences(unfilteredDifferences) {
 
-  console.log(differences);
+  console.log(unfilteredDifferences);
 
   // nine passes MAX
   // Seperate passes
