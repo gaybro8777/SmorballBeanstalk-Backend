@@ -23,6 +23,8 @@ function updateDifferences(unfilteredDifferences) {
   var filteredDiffs = _.map(uniqueDiffs, verifyWord);
   return Promise.settle(filteredDiffs)
     .then(function(results) {
+
+      /*==========  This whole section should be pulled out.  ==========*/
       var passCount = 0;
       _.forEach(uniqueDiffs, function(diff) {
         if (diff.pass === true) {
@@ -38,6 +40,7 @@ function updateDifferences(unfilteredDifferences) {
       if (unfilteredDifferences === 0) {
         throw new rekt.BadRequest('You must provide diffs');
       }
+      /*==========  This whole section should be pulled out.  ==========*/
       var possibleDifferences = _.chain(results)
         .map(function(result) {
           if (result.isFulfilled() && result.value) {
@@ -61,6 +64,33 @@ function updateDifferences(unfilteredDifferences) {
             throw new rekt.NotFound('Difference not found');
           } else {
             return foundDifference;
+          }
+        })
+        .then(function(foundDifference) {
+          var index = _.findIndex(foundDifference.tags, {
+            text: possibleDifference.text
+          });
+          var newPasses = 0;
+          if (possibleDifference.pass === true) {
+            var prevPasses = foundDifference.passes;
+            newPasses = prevPasses ? prevPasses + 1 || 0;
+          }
+          if (index > -1) {
+            var oldWeight = foundDifference.tags[index].weight;
+            var newWeight = foundDifference.tags[index].weight + 1;
+            foundDifference.tags.set(index, {
+              text: possibleDifference.text,
+              weight: newWeight
+            });
+            foundDifference.passes =
+            return foundDifference.saveAsync();
+          } else {
+            foundDifference.tags.push({
+              text: possibleDifference.text,
+              weight: 0
+            });
+            foundDifference.passes = newPasses;
+            return foundDifference.saveAsync();
           }
         });
     })
