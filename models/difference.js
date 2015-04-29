@@ -7,7 +7,7 @@ var DifferenceSchema = new Schema({
     type: String,
     required: true
   },
-  passes: Number,
+  passes: {},
   coords: [{}],
   texts: [String],
   tags: [{}]
