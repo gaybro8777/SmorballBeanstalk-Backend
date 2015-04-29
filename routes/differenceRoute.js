@@ -21,13 +21,16 @@ function updateDifferences(unfilteredDifferences) {
   // remerge passes and write to db
 
 
-  return new Promise(function(resolve, reject) {
+
     if (unfilteredDifferences === 0) {
-      resolve({});
+      throw new rekt.BadRequest('You must provide diffs');
     }
 
     var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
-    console.log(filteredDiffs);
+    return Promise.settle(filteredDiffs)
+      .then(function(results) {
+        console.log(results);
+      })
   });
 
   // /**
