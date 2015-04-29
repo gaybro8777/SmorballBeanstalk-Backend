@@ -20,7 +20,9 @@ function updateDifferences(unfilteredDifferences) {
   // Field is fine but the default should be not pass.
   // remerge passes and write to db
 
-
+  if (differences === 0) {
+    return {};
+  }
 
   /**
    * Run our verifying algorithm on the unfilteredDifferences provided to us
