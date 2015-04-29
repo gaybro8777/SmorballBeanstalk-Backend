@@ -82,7 +82,7 @@ function updateDifferences(unfilteredDifferences) {
               text: possibleDifference.text,
               weight: newWeight
             });
-            foundDifference.passes =
+            foundDifference.passes = newPasses;
             return foundDifference.saveAsync();
           } else {
             foundDifference.tags.push({
