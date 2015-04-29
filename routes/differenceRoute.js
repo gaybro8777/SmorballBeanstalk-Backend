@@ -24,7 +24,7 @@ function updateDifferences(unfilteredDifferences) {
   return Promise.settle(filteredDiffs)
     .then(function(results) {
       var passCount = 0;
-      _.forEach(unfilteredDifferences, function(diff) {
+      _.forEach(uniqueDiffs, function(diff) {
         if (diff.pass === true) {
           passCount++;
         }
