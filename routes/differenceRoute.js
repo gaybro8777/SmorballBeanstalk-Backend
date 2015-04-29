@@ -6,8 +6,9 @@ var Difference = requireLocal('models/difference.js');
 var _          = require('lodash');
 var verifyWord = requireLocal('utils/compare.js');
 
-
-
+.
+/** @type {INT} The number of passes before we reject the request. */
+var PASSCOUNT = 8;
 function updateDifferences(unfilteredDifferences) {
 
   console.log(unfilteredDifferences);
@@ -20,7 +21,8 @@ function updateDifferences(unfilteredDifferences) {
   // Field is fine but the default should be not pass.
   // remerge passes and write to db
 
-
+  var uniqueDiffs = _.uniq(unfilteredDifferences, '_id');
+  console.log(uniqueDiffs);
   var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
   return Promise.settle(filteredDiffs)
     .then(function(results) {
@@ -31,7 +33,7 @@ function updateDifferences(unfilteredDifferences) {
         }
       });
 
-      if (passCount > 8) {
+      if (passCount > PASSCOUNT) {
         console.log('Too many passes');
         throw new rekt.BadRequest('Too many passes');
       }
@@ -144,7 +146,7 @@ module.exports = function(router) {
         })
         .catch(function(err) {
           console.log(err);
-          res.send('There was an error processing your request.');
+          res.send(err);
         });
     });
 };
