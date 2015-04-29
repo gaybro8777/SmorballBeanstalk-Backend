@@ -19,25 +19,26 @@ function updateDifferences(unfilteredDifferences) {
   // verify the rest,
   // Field is fine but the default should be not pass.
   // remerge passes and write to db
-  var passCount = 0;
-  _.forEach(unfilteredDifferences, function(diff) {
-    if (diff.pass === true) {
-      passCount++;
-    }
-  });
 
-  if (passCount > 8) {
-    console.log('Too many passes');
-    throw new rekt.BadRequest('Too many passes');
-  }
-
-  if (unfilteredDifferences === 0) {
-    throw new rekt.BadRequest('You must provide diffs');
-  }
 
   var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
   return Promise.settle(filteredDiffs)
     .then(function(results) {
+      var passCount = 0;
+      _.forEach(unfilteredDifferences, function(diff) {
+        if (diff.pass === true) {
+          passCount++;
+        }
+      });
+
+      if (passCount > 8) {
+        console.log('Too many passes');
+        throw new rekt.BadRequest('Too many passes');
+      }
+
+      if (unfilteredDifferences === 0) {
+        throw new rekt.BadRequest('You must provide diffs');
+      }
       var possibleDifferences = _.chain(results)
         .map(function(result) {
           if (result.isFulfilled() && result.value) {
