@@ -20,27 +20,44 @@ function updateDifferences(unfilteredDifferences) {
   // Field is fine but the default should be not pass.
   // remerge passes and write to db
 
+  _.forEach(unfilteredDifferences, function(diff) {
+    console.log(diff);
+  });
 
+  if (unfilteredDifferences === 0) {
+    throw new rekt.BadRequest('You must provide diffs');
+  }
 
-    if (unfilteredDifferences === 0) {
-      throw new rekt.BadRequest('You must provide diffs');
-    }
+  var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
+  return Promise.settle(filteredDiffs)
+    .then(function(results) {
+      var possibleDifferences = _.chain(results)
+        .map(function(result) {
+          if (result.isFulfilled() && result.value) {
+            return result.value();
+          } else {
+            return false;
+          }
+        })
+        .compact()
+        .value();
+      if (possibleDifferences.length < 1) {
+        throw new rekt.BadRequest('All words possible spam.');
+      }
 
-    var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
-    return Promise.settle(filteredDiffs)
-      .then(function(results) {
-        var possibleDifferences = _.chain(results)
-          .map(function(result) {
-            if (result.isFulfilled() && result.value) {
-              return result.value();
-            } else {
-              return false;
-            }
-          })
-          .compact()
-          .value();
-        console.log(possibleDifferences);
-      })
+      return possibleDifferences;
+
+    })
+    .each(function(possible) {
+      return Difference.findByIdAsync(possible._id)
+        .then(function(foundDifference) {
+          if (!foundDifference) {
+            throw new rekt.NotFound('Difference not found');
+          } else {
+            return foundDifference;
+          }
+        });
+    })
 
   // /**
   //  * Run our verifying algorithm on the unfilteredDifferences provided to us
