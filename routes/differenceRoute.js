@@ -20,9 +20,14 @@ function updateDifferences(unfilteredDifferences) {
   // Field is fine but the default should be not pass.
   // remerge passes and write to db
 
-  if (unfilteredDifferences === 0) {
-    return {};
-  }
+
+  return new Promise(function(resolve, reject) {
+    if (unfilteredDifferences === 0) {
+      resolve({});
+    }
+
+    var filteredDiffs = _.map(unfilteredDifferences, verifyWord);
+  });
 
   // /**
   //  * Run our verifying algorithm on the unfilteredDifferences provided to us
