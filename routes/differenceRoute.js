@@ -11,8 +11,6 @@ var verifyWord = requireLocal('utils/compare.js');
 var PASSCOUNT = 8;
 function updateDifferences(unfilteredDifferences) {
 
-  console.log(unfilteredDifferences);
-
   // nine passes MAX
   // Seperate passes
   // discard the passes
