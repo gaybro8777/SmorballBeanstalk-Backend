@@ -115,6 +115,7 @@ function saveDifferences(page) {
     newDifference.tags = difference.tags;
     newDifference.texts = difference.texts;
     newDifference.coords = difference.coords;
+    newDifference.passes = difference.passes;
     return newDifference.saveAsync().bind(difference)
       .get(0)
       .then(function(result) {
