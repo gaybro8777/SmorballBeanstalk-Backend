@@ -74,7 +74,6 @@ function updateDifferences(unfilteredDifferences) {
           console.log(possible);
           if (possible.pass === true) {
             var prevPasses = foundDifference.passes;
-            console.log(prevPasses);
             if (prevPasses) {
               newPasses = prevPasses + 1;
             } else {
@@ -88,6 +87,7 @@ function updateDifferences(unfilteredDifferences) {
               text: possible.text,
               weight: newWeight
             });
+            console.log(newPasses);
             foundDifference.passes = newPasses;
             return foundDifference.saveAsync();
           } else {
@@ -95,6 +95,7 @@ function updateDifferences(unfilteredDifferences) {
               text: possible.text,
               weight: 0
             });
+            console.log(newPasses);
             foundDifference.passes = newPasses;
             return foundDifference.saveAsync();
           }
