@@ -27,6 +27,7 @@ function updateDifferences(unfilteredDifferences) {
   });
 
   if (passCount > 8) {
+    console.log('Too many passes');
     throw new rekt.BadRequest('Too many passes');
   }
 
@@ -142,7 +143,7 @@ module.exports = function(router) {
         })
         .catch(function(err) {
           console.log(err);
-          res.send(err);
+          res.send('There was an error processing your request.');
         });
     });
 };
