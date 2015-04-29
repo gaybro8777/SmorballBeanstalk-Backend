@@ -68,10 +68,10 @@ function updateDifferences(unfilteredDifferences) {
         })
         .then(function(foundDifference) {
           var index = _.findIndex(foundDifference.tags, {
-            text: possibleDifference.text
+            text: possible.text
           });
           var newPasses = 0;
-          if (possibleDifference.pass === true) {
+          if (possible.pass === true) {
             var prevPasses = foundDifference.passes;
             newPasses = prevPasses ? prevPasses + 1 : 0;
           }
@@ -79,14 +79,14 @@ function updateDifferences(unfilteredDifferences) {
             var oldWeight = foundDifference.tags[index].weight;
             var newWeight = foundDifference.tags[index].weight + 1;
             foundDifference.tags.set(index, {
-              text: possibleDifference.text,
+              text: possible.text,
               weight: newWeight
             });
             foundDifference.passes = newPasses;
             return foundDifference.saveAsync();
           } else {
             foundDifference.tags.push({
-              text: possibleDifference.text,
+              text: possible.text,
               weight: 0
             });
             foundDifference.passes = newPasses;
