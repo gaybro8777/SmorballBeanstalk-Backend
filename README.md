@@ -30,8 +30,9 @@ Some endpoints require a jwt token to function. To generate a token:
 ```[bash]
 node tokenGen.js
 ```
+
 And then follow the onscreen instructions.
-Valid tokens are 'Tiltfactor', 'BHL', and 'Game'.
+Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'.
 
 ## End Points
 .... to be written
