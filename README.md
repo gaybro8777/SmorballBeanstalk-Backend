@@ -29,7 +29,7 @@ By default the server is started on port 8081 and the endpoints are defined unde
 You can modify settings in the config.js file.
 
 
-All endpoints require a jwt token to function. To generate a token make sure you are in the BHL_Server directory:  
+All endpoints require a jwt token to function. To generate a token make sure you are in the BHL\_Server directory:  
 Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'.
 ```[bash]
 node tokenGen.js
