@@ -30,9 +30,18 @@ Some endpoints require a jwt token to function. To generate a token:
 ```[bash]
 node tokenGen.js
 ```
+Any pre-existing token will be replaced. 
 
 And then follow the onscreen instructions.
 Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'.
+
+# Persistance
+Run with PM2
+[PM2](https://github.com/Unitech/pm2)
+``` [bash]
+npm install pm2 -g
+pm2 start server.js -i max
+```
 
 ## End Points
 .... to be written
