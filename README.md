@@ -7,6 +7,7 @@ Once those two dependencies are installed, start Mongo.
 ``` [bash]
 mongod
 ```
+
 ``` [bash]
 git clone https://github.com/jesusrmoreno/BHLREWRITE.git BHL_Server
 cd BHL_Server
@@ -23,13 +24,14 @@ Which will output:
 ~/BHL_Server/routes/differenceRoute.js
 ~/BHL_Server/routes/pageRoute.js
 Started on: 8081
+
 ```
 By default the server is started on port 8081 and the endpoints are defined under:  
 `~/BHL_Server/routes/`
 You can modify settings in the config.js file.
 
 
-All endpoints require a jwt token to function. To generate a token make sure you are in the BHL\_Server directory:  
+All endpoints require a jwt token to function. To generate a token make sure you are in the BHL_Server directory:  
 Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'.
 ```[bash]
 node tokenGen.js
