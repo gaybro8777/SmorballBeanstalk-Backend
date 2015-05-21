@@ -46,5 +46,7 @@ npm install pm2 -g
 pm2 start server.js -i max
 ```
 
+Going to http://localhost:8081/ should print out "Hello did you get lost?" if it is working. 
+
 ## End Points
 .... to be written
