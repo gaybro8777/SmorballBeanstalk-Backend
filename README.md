@@ -26,7 +26,7 @@ Started on: 8081
 By default the server is started on port 8081 and the endpoints are defined under:  
 `~/BHL_Server/routes/`
 
-Some endpoints require a jwt token to function. To generate a token:  
+All endpoints require a jwt token to function. To generate a token:  
 ```[bash]
 node tokenGen.js
 ```
