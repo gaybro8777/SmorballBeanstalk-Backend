@@ -1,6 +1,6 @@
 ## Installation
 This project uses on NodeJS and MongoDB to create a OCR correction database/server.  
-[Mongo install instructions](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)  
+[Mongo install instructions](http://docs.mongodb.org/manual/installation/)  
 [NodeJS install instructions](https://github.com/creationix/nvm)  
 Once those two dependencies are installed, start Mongo.
 ``` [bash]
