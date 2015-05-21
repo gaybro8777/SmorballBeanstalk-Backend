@@ -29,14 +29,25 @@ By default the server is started on port 8081 and the endpoints are defined unde
 You can modify settings in the config.js file.
 
 
-All endpoints require a jwt token to function. To generate a token:  
+All endpoints require a jwt token to function. To generate a token make sure you are in the BHL_Server directory:  
+Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'.
 ```[bash]
 node tokenGen.js
 ```
+And then follow the onscreen instructions.
 Any pre-existing token will be replaced. 
 
-And then follow the onscreen instructions.
-Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'.
+Tokens can be included either as a query param under access_token or a header under x-access-token.
+The token is the token field in the generated object.
+``` [json]
+{ 
+  __v: 0,
+  iat: 1432236887475,
+  subject: 'Tiltfactor',
+  token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUaWx0ZmFjdG9yIiwiaWF0IjoxNDMyMjM2ODg3NDc1LCJpc3MiOiJCSExTZXJ2ZXIifQ.opAZfrVHdNVo6PCzePBZKyVNuvPw_JnM7oRl1GUDk2Y',
+  _id: 555e335728ad5e17321ac376 
+}
+```
 
 # Persistance
 Run with PM2
