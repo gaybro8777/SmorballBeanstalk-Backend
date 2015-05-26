@@ -54,11 +54,13 @@ The token is the token field in the generated object.
 ```
 
 # Persistance
-Run with PM2
+PM2 is a production process manager for Node.js / io.js applications with a built-in load balancer. It allows you to keep applications alive forever, to reload them without downtime and to facilitate common system admin tasks.
+Run with [PM2](https://github.com/Unitech/pm2)
 [PM2](https://github.com/Unitech/pm2)
 ``` [bash]
 npm install pm2 -g
 pm2 start server.js -i max
 ```
 
-Going to http://localhost:8081/ should print out "Hello did you get lost?" if it is working. 
+Going to http://[Site url, OR localhost]:8081/ should print out "Hello did you get lost?" if it is working. 
+
