@@ -16,7 +16,7 @@ npm start
 ```
 Which will output:
 ``` [bash]
-> bhl-server@1.0.0 start /Users/jesus/BHL_Server
+> bhl-server@1.0.0 start /Users/<$USER>/BHL_Server
 > node server.js
 
 ~/BHL_Server/routes/AToken.js
