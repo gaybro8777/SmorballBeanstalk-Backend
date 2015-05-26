@@ -62,5 +62,8 @@ npm install pm2 -g
 pm2 start server.js -i max
 ```
 
-Going to http://[Site url, OR localhost]:8081/ should print out "Hello did you get lost?" if it is working. 
+Going to: 
+http://localhost:8081/ 
+http://[site-url]:8081/
+Should print out "Hello did you get lost?" if it is working. 
 
