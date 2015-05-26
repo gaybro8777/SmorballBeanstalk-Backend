@@ -27,7 +27,9 @@ Started on: 8081
 
 ```
 By default the server is started on port 8081 and the endpoints are defined under:  
-```~/BHL_Server/routes/```
+```
+~/BHL_Server/routes/
+```
 You can modify settings in the config.js file.
 
 
