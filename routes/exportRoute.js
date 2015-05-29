@@ -106,11 +106,11 @@ module.exports = function(router) {
         })
         .catch(rekt.NotFound, function(err) {
           console.log(err);
-          // rekt.ServerError(err, res);
+          res.send(err);
         })
         .catch(function(err) {
           console.log(err);
-          // rekt.ServerError(err, res);
+          res.send(err);
         });
     });
 };
