@@ -51,9 +51,7 @@ function getBooks() {
           });
         }
       });
-  }).then(function(books) {
-    return books;
-  });
+  }).then(prepareBooks).then(console.log)
 }
 
 
@@ -82,35 +80,35 @@ function getBooks() {
 //   });
 // }
 
-// function prepareBooks(books) {
-//   return Promise.map(books, function(book) {
-//     return {
-//       items: [{
-//         id: book.id,
-//         barcode: book.barcode,
-//         pages: []
-//       }],
-//       oldBook: book
-//     };
-//   })
-//   .then(function(newBooks) {
-//     return Promise.map(newBooks, function(book) {
-//       var pages = book.oldBook.pages;
-//       _.forEach(pages, function(page) {
-//         book.items[0].pages.push({
-//           id: page.id,
-//           differences: page.differences
-//         });
-//       });
-//       return book;
-//     });
-//   })
-//   .then(function(newBooks) {
-//     return Promise.map(newBooks, function(book) {
-//       var differences = book.item[0].pages[0].differences;
-//     });
-//   });
-// }
+function prepareBooks(books) {
+  return Promise.map(books, function(book) {
+    return {
+      items: [{
+        id: book.id,
+        barcode: book.barcode,
+        pages: []
+      }],
+      oldBook: book
+    };
+  })
+  .then(function(newBooks) {
+    return Promise.map(newBooks, function(book) {
+      var pages = book.oldBook.pages;
+      _.forEach(pages, function(page) {
+        book.items[0].pages.push({
+          id: page.id,
+          differences: page.differences
+        });
+      });
+      return book;
+    });
+  })
+  .then(function(newBooks) {
+    return Promise.map(newBooks, function(book) {
+      var differences = book.item[0].pages[0].differences;
+    });
+  });
+}
 
 
 // module.exports = function(router) {
