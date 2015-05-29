@@ -7,26 +7,6 @@ var Page    = requireLocal('models/page.js');
 var _       = require('lodash');
 var fs      = require('fs');
 
-module.exports = function(router) {
-  router.route('/export.zip')
-    .all(function(req, res, next) {
-      if (req.token.subject === 'Tiltfactor' || req.token.subject === 'BHL') {
-        next();
-      } else {
-        res.status(401);
-        res.json({
-          message: 'You don\'t have access to this.'
-        });
-      }
-    })
-    .get(function(req, res) {
-      getBooks()
-        .then(function(books) {
-          res.send(books);
-        });
-    });
-};
-
 function getBooks() {
   return new Promise(function(resolve, reject) {
     Book.find({})
@@ -41,85 +21,96 @@ function getBooks() {
         };
 
         if (err) {
-          reject(err)
+          reject(err);
         } else {
           Book.populate(pages, options, function(err, books) {
-            if (err) {
-              reject(err)
-            }
+            if (err) reject(err);
             resolve(books);
           });
         }
       });
-  }).then(prepareBooks).then(console.log)
-}
-
-
-// function getBooks() {
-//   return new Promise(function(resolve, reject) {
-//     Book.find({})
-//       .lean()
-//       .populate({
-//         path: 'pages'
-//       })
-//       .exec(function(err, pages) {
-//         var options = {
-//           path: 'pages.differences',
-//           model: 'Difference'
-//         };
-
-//         if (err) {
-//           reject(err);
-//         } else {
-//           Book.populate(pages, options, function(err, books) {
-//             if (err) reject(err);
-//             resolve(books);
-//           });
-//         }
-//       });
-//   });
-// }
-
-function prepareBooks(books) {
-  return Promise.map(books, function(book) {
-    return {
-      items: [{
-        id: book.id,
-        barcode: book.barcode,
-        pages: []
-      }],
-      oldBook: book
-    };
-  })
-  .then(function(newBooks) {
-    return Promise.map(newBooks, function(book) {
-      var pages = book.oldBook.pages;
-      _.forEach(pages, function(page) {
-        book.items[0].pages.push({
-          id: page.id,
-          differences: page.differences
-        });
-      });
-      return book;
-    });
-  })
-  .then(function(newBooks) {
-    return Promise.map(newBooks, function(book) {
-      var differences = book.item[0].pages[0].differences;
-    });
   });
 }
 
+function prepareBooks(books) {
+  return new Promise(function(resolve, reject) {
+    _.forEach(books, function(book) {
+      book.pages = _.map(book.pages, function(page) {
+        var newPage = {
+          items: []
+        };
+        page.barcode = book.barcode;
+        page.bookid  = book.id;
+        page.pages   = page.differences;
+        delete page.differences;
+        delete page._id;
+        delete page.__v;
+        newPage.items.push(page);
+        return newPage;
+      });
+    });
+    resolve(books);
+  })
+  .then(function(books) {
+    return Promise.map(books, function(book) {
+      return book.pages;
+    });
+  })
+  .then(function(pages) {
+    return _.flatten(pages);
+  });
+}
 
-// module.exports = function(router) {
-//   router.route('/export.zip')
-//     .get(function(req, res) {
-//       getBooks()
-//         .then(prepareBooks)
-//         .then(preparePages)
-//         .then(prepareZip)
-//         .then(function(zip) {
-//           res.send(zip);
-//         });
-//     });
-// };
+function preparePages(pages) {
+  return new Promise(function(resolve, reject) {
+    _.forEach(pages, function(page) {
+      var differences = page.items[0].pages;
+      page.items[0].pages = _.map(differences, function(diff) {
+        var newDiff = {};
+        var tag = _.max(diff.tags, function(tag) {
+          return tag.weight;
+        });
+        if (tag.toString() !== '-Infinity') {
+          newDiff.tag = tag;
+        } else {
+          newDiff.tag = 'Not Tagged';
+        }
+        newDiff.id = diff.id;
+        return newDiff;
+      });
+    });
+    resolve(pages);
+  });
+}
+
+function prepareZip(pages) {
+  var zip = new AdmZip();
+  _.forEach(pages, function(page) {
+    console.log(page);
+    var fileName = page.items[0].barcode + '_' + page.items[0].id + '.json';
+    zip.addFile(fileName, JSON.stringify(page));
+  });
+  var willSendthis = zip.toBuffer();
+  return willSendthis;
+}
+
+module.exports = function(router) {
+  router.route('/export.zip')
+    .get(function(req, res) {
+      getBooks()
+        .then(prepareBooks)
+        .then(preparePages)
+        .then(prepareZip)
+        .then(function(zip) {
+          res.send(zip);
+        })
+        .catch(rekt.NotFound, function(err) {
+          console.log(err);
+          // rekt.ServerError(err, res);
+        })
+        .catch(function(err) {
+          console.log(err);
+          // rekt.ServerError(err, res);
+        });
+    });
+};
