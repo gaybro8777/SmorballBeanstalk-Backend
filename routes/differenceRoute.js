@@ -6,7 +6,6 @@ var Difference = requireLocal('models/difference.js');
 var _          = require('lodash');
 var verifyWord = requireLocal('utils/compare.js');
 
-
 /** @type {INT} The number of passes before we reject the request. */
 var PASSCOUNT = 8;
 function updateDifferences(unfilteredDifferences) {
