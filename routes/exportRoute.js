@@ -22,7 +22,7 @@ module.exports = function(router) {
     .get(function(req, res) {
       getBooks()
         .then(function(books) {
-          res.send('hello');
+          res.send(books);
         });
     });
 };
@@ -52,9 +52,7 @@ function getBooks() {
         }
       });
   }).then(function(books) {
-    if (books.length == 0) {
-      return 0
-    }
+    return books;
   });
 }
 
