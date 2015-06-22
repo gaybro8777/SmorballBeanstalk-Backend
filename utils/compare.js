@@ -102,15 +102,14 @@ function closestWord(input, differences) {
     console.log('Looking in tags...');
     // We figure out if the users input matches any of the previous tags.
     tagWin = _.find(closestOcr.tags, function(tag) {
-      console.log('Comparing:', input, 'with', tag.text.toLowerCase());
+      console.log('Comparing:', input, 'with', tag.text);
       if (tag.text === input) {
         return true;
       } else {
         return false;
       }
     });
-    tagWin = tagWin || [];
-    if (tagWin.length > 0) {
+    if (!_.isUndefined(tagWin)) {
       match = true;
     } else {
       match = false;
