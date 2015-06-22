@@ -5,6 +5,7 @@ var Page       = requireLocal('models/page.js');
 var Difference = requireLocal('models/difference.js');
 var _          = require('lodash');
 var verifyWord = requireLocal('utils/compare.js');
+var config     = requireLocal('config/config.js');
 
 /** @type {INT} The number of passes before we reject the request. */
 var PASSCOUNT = 8;
@@ -84,6 +85,23 @@ function updateDifferences(unfilteredDifferences) {
                 weight: 0
               });
             }
+          }
+          // Update state
+          var weightSum = _(foundDifference.tags).pluck("weight").reduce(function(memo,num){ return memo + num; });
+          var tagsByWeight = _(foundDifference.tags).sortBy("weight").reverse();
+          var weight1 = tagsByWeight[0]; //highest weight
+          var weight2 = tagsByWeight[1]; //second-highest weight
+          var passes = foundDifference.passes;
+          var markPassed = (passes / (weightSum + passes) > config.thresholds.passedRatio)
+            && (weightSum + passes > config.thresholds.passedMin);
+          var markTagged = (weight1 / (weight1 + weight2) > config.thresholds.taggedRatio)
+            && (weight1 > config.thresholds.taggedMin);
+          if (markPassed) {
+            foundDifference.state = "passed";
+          } else if (markTagged) {
+            foundDifference.state = "tagged";
+          } else {
+            foundDifference.state = "in_use";
           }
 
           return foundDifference.saveAsync();

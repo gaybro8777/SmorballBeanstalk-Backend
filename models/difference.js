@@ -10,7 +10,8 @@ var DifferenceSchema = new Schema({
   passes: {type: Number, default: 0},
   coords: [{}],
   texts: [String],
-  tags: [{}]
+  tags: [{}],
+  state: {type: String, default: "in_use"}
 });
 
 var Difference = mongoose.model('Difference', DifferenceSchema);

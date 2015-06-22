@@ -10,13 +10,27 @@ function getPage(n) {
       if (err) { reject(err) }
       var returnPage;
       if (pages.length > 0) {
-        returnPage = _(pages).shuffle().find(function(page) {
-          return page.differences.length >= n;
+        pages = _.shuffle(pages);
+        returnPage = _.find(pages, function(page) {
+          if (page.state == "done") return false;
+          var isDone = _.every(page.differences, function(d) { return d.state != "in_use"; });
+          if (isDone) {
+            console.log("Marking page as done: " + page._id);
+            page.state = "done";
+          }
+          page.saveAsync();
+          return !isDone && page.differences.length >= n;
         });
         if (_.isUndefined(returnPage)) {
           console.log('There is no page with at least', n, 'differences.');
           console.log('Sending random page');
-          var randomPage = _.sample(pages, 1)[0];
+          var randomPage = _.find(pages, function(page) {
+            return page.state != "done";
+          });
+          if (_.isUndefined(returnPage)) {
+            var error = new rekt.NotFound('No Pages');
+            reject(error);
+          }
           resolve(randomPage);
         } else {
           resolve(returnPage);

@@ -15,7 +15,8 @@ var PageSchema = new Schema({
   differences: [{
     type: Schema.Types.ObjectId,
     ref: 'Difference'
-  }]
+  }],
+  state: {type: String, default: "in_use"}
 });
 
 var Page = mongoose.model('Page', PageSchema);
