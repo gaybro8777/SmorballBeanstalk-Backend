@@ -16,6 +16,12 @@ function verifyWord(difference) {
 
   return Difference.findByIdAsync(id)
     .then(function(databaseCopy) {
+      if (difference.pass) {
+        console.log(databaseCopy.texts);
+        console.log('Passed'.blue);
+        return difference;
+      }
+
       var wordCompareResult = closestWord(text, [databaseCopy]).match;
       if (wordCompareResult) {
         console.log(difference.text);

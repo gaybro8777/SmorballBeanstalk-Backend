@@ -66,40 +66,27 @@ function updateDifferences(unfilteredDifferences) {
           }
         })
         .then(function(foundDifference) {
-          var index = _.findIndex(foundDifference.tags, {
-            text: possible.text
-          });
-          var newPasses = 0;
-          console.log(possible);
           if (possible.pass === true) {
-            var prevPasses = foundDifference.passes;
-            console.log(foundDifference);
-            if (!_.isUndefined(prevPasses)) {
-              console.log('updating');
-              newPasses = prevPasses + 1;
+            foundDifference.passes++;
+          } else {
+            var index = _.findIndex(foundDifference.tags, {
+              text: possible.text
+            });
+            if (index > -1) {
+              var newWeight = foundDifference.tags[index].weight + 1;
+              foundDifference.tags.set(index, {
+                text: possible.text,
+                weight: newWeight
+              });
             } else {
-              newPasses = prevPasses;
+              foundDifference.tags.push({
+                text: possible.text,
+                weight: 0
+              });
             }
           }
-          if (index > -1) {
-            var oldWeight = foundDifference.tags[index].weight;
-            var newWeight = foundDifference.tags[index].weight + 1;
-            foundDifference.tags.set(index, {
-              text: possible.text,
-              weight: newWeight
-            });
-            console.log(newPasses);
-            foundDifference.passes = newPasses;
-            return foundDifference.saveAsync();
-          } else {
-            foundDifference.tags.push({
-              text: possible.text,
-              weight: 0
-            });
-            console.log(newPasses);
-            foundDifference.passes = newPasses;
-            return foundDifference.saveAsync();
-          }
+
+          return foundDifference.saveAsync();
         });
     })
 }
