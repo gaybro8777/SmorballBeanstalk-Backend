@@ -88,9 +88,9 @@ function updateDifferences(unfilteredDifferences) {
           }
           // Update state
           var weightSum = _(foundDifference.tags).pluck("weight").reduce(function(memo,num){ return memo + num; });
-          var tagsByWeight = _(foundDifference.tags).sortBy("weight").reverse();
-          var weight1 = tagsByWeight[0]; //highest weight
-          var weight2 = tagsByWeight[1]; //second-highest weight
+          var tagsByWeight = _(foundDifference.tags).sortBy("weight").reverse().value();
+          var weight1 = tagsByWeight[0].weight; //highest weight
+          var weight2 = tagsByWeight[1].weight; //second-highest weight
           var passes = foundDifference.passes;
           var markPassed = (passes / (weightSum + passes) > config.thresholds.passedRatio)
             && (weightSum + passes > config.thresholds.passedMin);
