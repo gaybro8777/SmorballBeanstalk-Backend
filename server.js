@@ -32,7 +32,7 @@ requireLocal('routes')(router);
 
 /** Allows us to parse body and query parameters */
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '1mb'}));
 
 /** Remove the 'Powered by Express' header. */
 app.disable('x-powered-by');
