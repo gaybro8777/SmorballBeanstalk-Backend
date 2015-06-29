@@ -1,70 +1,111 @@
+# Backend for Smorball & Beanstalk
+
+This project uses Node.js and MongoDB to create a OCR correction database/server for use with the HTML5 games [Smorball](https://github.com/tiltfactor/smorball) and [Beanstalk](https://github.com/tiltfactor/beanstalk).
+
+
+### Contents
+
+- [Installation](#installation)
+- [Persistence](#persistence)
+- [More Documentation](#documentation)
+
+
+<a name="installation"></a>
 ## Installation
-This project uses on NodeJS and MongoDB to create a OCR correction database/server.  
-[Mongo install instructions](http://docs.mongodb.org/manual/installation/)  
-[NodeJS install instructions](https://github.com/creationix/nvm)
 
-Once those two dependencies are installed, start Mongo.
-``` [bash]
-mongod
+First, you will need to install MongoDB and Node.js. Note that Node can be acquired through nvm or as a direct download. We recommend using nvm for ease of maintenance.
+- [Installing MongoDB](http://docs.mongodb.org/manual/installation/)
+- [Installing Node.js using nvm (recommended)](https://github.com/creationix/nvm)
+- [Installing Node.js directly](https://nodejs.org/)
+
+Clone the project to your system.
+
+```bash
+$ git clone https://github.com/tiltfactor/SmorballBeanstalk-Backend.git
 ```
 
-``` [bash]
-git clone https://github.com/jesusrmoreno/BHLREWRITE.git BHL_Server
-cd BHL_Server
-npm install
-npm start
+Copy the example configuration file to config.js and add a secret key on the line indicated. This will be used to generate
+the tokens included in any requests to the database.
+
+```bash
+$ cp config/config_EXAMPLE.js config/config.js
 ```
-Which will output:
-``` [bash]
-> bhl-server@1.0.0 start /Users/<$USER>/BHL_Server
+
+Next, install the Node.js dependencies.
+```bash
+$ cd SmorballBeanstalk-Backend
+$ npm install
+```
+
+Once those dependencies are installed, start MongoDB. You may specify a custom database location inline, or include it in a configuration file. More information about configuring MongoDB can be found [here](http://docs.mongodb.org/manual/reference/configuration-options/).
+
+```bash
+# basic command
+$ mongod
+# specifying database
+$ mongod --dbpath path/to/db
+# specifying config file
+$ mongod --config path/to/config
+```
+
+Finally, start node. You should see the following output.
+
+```bash
+$ npm start
+
+> bhl-server@1.0.0 start /.../SmorballBeanstalk-Backend
 > node server.js
 
-~/BHL_Server/routes/AToken.js
-~/BHL_Server/routes/bookRoute.js
-~/BHL_Server/routes/differenceRoute.js
-~/BHL_Server/routes/pageRoute.js
+.../SmorballBeanstalk-Backend/routes/AToken.js
+.../SmorballBeanstalk-Backend/routes/bookRoute.js
+.../SmorballBeanstalk-Backend/routes/differenceRoute.js
+.../SmorballBeanstalk-Backend/routes/pageRoute.js
 Started on: 8081
+```
 
-```
-By default the server is started on port 8081 and the endpoints are defined under:  
-```
-~/BHL_Server/routes/
-```
-You can modify settings in the config.js file.
+By default the server is started on port 8081 and the endpoints are defined under ```~/SmorballBeanstalk-Backend/routes/```. You can modify settings in the config.js file.
+
+To verify that the server is running, you can point your web browser to port 8081 of the server (e.g: ```localhost:8081``` or ```www.example.com:8081```). You should get the message, "Hello did you get lost?"
 
 
-All endpoints require a jwt token to function. To generate a token make sure you are in the BHL_Server directory:  
-Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'.
-```[bash]
-node tokenGen.js
-```
-And then follow the onscreen instructions.
-Any pre-existing token will be replaced. 
+<a name="authorization"></a>
+### Authorization
 
-Tokens can be included either as a query param under access_token or a header under x-access-token.
-The token is the token field in the generated object.
-``` [json]
-{ 
-  __v: 0,
+All endpoints require a jwt token to function. To generate a token, run tokenGen.js:
+
+```bash
+$ cd SmorballBeanstalk-Backend
+$ node tokenGen.js
+:Subject
+```
+
+Enter a token when prompted. Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'. Any pre-existing token will be replaced.
+
+```
+{ __v: 0,
   iat: 1432236887475,
   subject: 'Tiltfactor',
-  token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUaWx0ZmFjdG9yIiwiaWF0IjoxNDMyMjM2ODg3NDc1LCJpc3MiOiJCSExTZXJ2ZXIifQ.opAZfrVHdNVo6PCzePBZKyVNuvPw_JnM7oRl1GUDk2Y',
-  _id: 555e335728ad5e17321ac376 
-}
+  token: <tokenstring>
+  _id: 555e335728ad5e17321ac376 }
 ```
 
-# Persistance
-PM2 is a production process manager for Node.js / io.js applications with a built-in load balancer. It allows you to keep applications alive forever, to reload them without downtime and to facilitate common system admin tasks.
-[PM2](https://github.com/Unitech/pm2)
-``` [bash]
-npm install pm2 -g
-pm2 start server.js -i max
+The token is the ```token``` field in the generated object. When making requests, tokens can be included either as a query param under ```access_token``` or a header under ```x-access-token```.
+
+
+<a name="persistence"></a>
+## Persistence
+
+[PM2](https://github.com/Unitech/pm2) is a production process manager for Node.js / io.js applications with a built-in load balancer. It allows you to keep applications alive forever, to reload them without downtime and to facilitate common system admin tasks.
+The following commands will install PM2 globally (-g) and use it to run the Node.js server.
+
+```bash
+$ cd SmorballBeanstalk-Backend
+$ npm install pm2 -g
+$ pm2 start server.js -i max
 ```
 
-Going to:   
-http://localhost:8081/  
-http://[site-url]:8081/  
+<a name="documentation"></a>
+## More documentation
 
-
-Should print out "Hello did you get lost?" if it is working. 
-
+- [Server API](docs/server_api.md)
+- [Database reference](docs/database_ref.md)
