@@ -41,8 +41,6 @@ function prepareBooks(books) {
         };
         page.barcode = book.barcode;
         page.bookid  = book.id;
-        page.pages   = page.differences;
-        delete page.differences;
         delete page._id;
         delete page.__v;
         newPage.items.push(page);
@@ -64,18 +62,20 @@ function prepareBooks(books) {
 function preparePages(pages) {
   return new Promise(function(resolve, reject) {
     _.forEach(pages, function(page) {
-      var differences = page.items[0].pages;
-      page.items[0].pages = _.map(differences, function(diff) {
+      var differences = page.items[0].differences;
+      page.items[0].differences = _.map(differences, function(diff) {
         var newDiff = {};
-        var tag = _.max(diff.tags, function(tag) {
-          return tag.weight;
-        });
-        if (tag.toString() !== '-Infinity') {
-          newDiff.tag = tag;
-        } else {
-          newDiff.tag = 'Not Tagged';
-        }
+        var tagsByWeight = _(diff.tags).sortBy("weight").reverse().value();
+        var tag1 = tagsByWeight[0]; //highest weight
+        var tag2 = tagsByWeight[1]; //second-highest weight
+        var confidence = tag1.weight / (tag1.weight + tag2.weight);
+        var newTag = {};
+        newTag.text = tag1;
+        newTag.altText = tag2;
+        newTag.score = _.isNaN(confidence) ? 0 : confidence;
         newDiff.id = diff.id;
+        newDiff.state = diff.state;
+        newDiff.tag = newTag;
         return newDiff;
       });
     });
