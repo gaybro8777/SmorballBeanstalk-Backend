@@ -1,5 +1,5 @@
 var Promise = require('bluebird');
-var AdmZip  = require('adm-zip');
+var archiver = require('archiver');
 var base    = process.env.PWD;
 var rekt    = require('rekt').rekt;
 var Book    = requireLocal('models/book.js');
@@ -84,14 +84,28 @@ function preparePages(pages) {
 }
 
 function prepareZip(pages) {
-  var zip = new AdmZip();
-  _.forEach(pages, function(page) {
-    console.log(page);
-    var fileName = page.items[0].barcode + '_' + page.items[0].id + '.json';
-    zip.addFile(fileName, JSON.stringify(page));
+  return new Promise(function(resolve, reject) {
+    var zip = archiver.create('zip', {});
+    var arr = [];
+    var len = 0;
+    zip.on('data', function(chunk) {
+      arr.push(chunk);
+      len += chunk.length;
+    });
+    zip.on('error', function(err){
+      reject(err);
+    });
+    zip.on('end', function() {
+      console.log("Stream completed; sending archive");
+      resolve(Buffer.concat(arr, len));
+    });
+    _.forEach(pages, function(page) {
+      //console.log(page);
+      var fileName = page.items[0].barcode + '_' + page.items[0].id + '.json';
+      zip.append(JSON.stringify(page), {name: 'export/' + fileName});
+    });
+    zip.finalize();
   });
-  var willSendthis = zip.toBuffer();
-  return willSendthis;
 }
 
 module.exports = function(router) {
