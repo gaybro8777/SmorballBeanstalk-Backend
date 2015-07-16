@@ -24,27 +24,26 @@ Clone the project to your system.
 $ git clone https://github.com/tiltfactor/SmorballBeanstalk-Backend.git
 ```
 
-Copy the example configuration file to config.js and add a secret key on the line indicated. This will be used to generate
-the tokens included in any requests to the database.
+Copy the example configuration file to config.js.
 
 ```bash
+$ cd SmorballBeanstalk-Backend
 $ cp config/config_EXAMPLE.js config/config.js
 ```
+Now add a string to be used as the secret key on the line indicated. (An example of a good key would be a randomly-generated 32-character string.) This will be used to generate the tokens included in any requests to the database.
 
 Next, install the Node.js dependencies.
 ```bash
-$ cd SmorballBeanstalk-Backend
 $ npm install
 ```
 
 Once those dependencies are installed, start MongoDB. You may specify a custom database location inline, or include it in a configuration file. More information about configuring MongoDB can be found [here](http://docs.mongodb.org/manual/reference/configuration-options/).
 
 ```bash
-# basic command
-$ mongod
-# specifying database
+# specify database inline
 $ mongod --dbpath path/to/db
-# specifying config file
+
+# if you have created a MongoDB config file, run this instead
 $ mongod --config path/to/config
 ```
 
@@ -65,7 +64,7 @@ Started on: 8081
 
 By default the server is started on port 8081 and the endpoints are defined under ```~/SmorballBeanstalk-Backend/routes/```. You can modify settings in the config.js file.
 
-To verify that the server is running, you can point your web browser to port 8081 of the server (e.g: ```localhost:8081``` or ```www.example.com:8081```). You should get the message, "Hello did you get lost?"
+To verify that the server is running, you can point your web browser to port 8081 of the server (in the case of a local server, copy ```localhost:8081``` into your address bar). You should get the message, "Hello did you get lost?"
 
 
 <a name="authorization"></a>
@@ -79,7 +78,7 @@ $ node tokenGen.js
 :Subject
 ```
 
-Enter a token when prompted. Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'. Any pre-existing token will be replaced.
+Enter a token when prompted by ":Subject". Valid token subjects are 'Tiltfactor', 'BHL', and 'Game'. Any pre-existing token will be replaced.
 
 ```
 { __v: 0,
